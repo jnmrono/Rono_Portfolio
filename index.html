@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROÑO - PORTFOLIO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        body {
+            background-color: #4A1525; 
+            color: #ffffff;            
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem 8%;
+        }
+
+        .logo {
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.25rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: opacity 0.3s, border-bottom 0.3s;
+            text-transform: uppercase;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav a:hover, nav a.active {
+            opacity: 0.8;
+            border-bottom: 2px solid #ffffff;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 8%;
+        }
+
+        .page-section {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .page-section.active {
+            display: flex;
+        }
+
+        #home {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .bio-container {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .bio-container h1 {
+            font-size: 3.8rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .bio-container h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        .bio-container p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            max-width: 550px;
+        }
+
+        .profile-img-container {
+            width: 380px;
+            height: 480px;
+            border-radius: 20px; 
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            flex-shrink: 0;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .profile-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-icons a {
+            color: #ffffff;
+            font-size: 1.8rem;
+            text-decoration: none;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-3px);
+            opacity: 0.8;
+        }
+
+        .content-box {
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 4rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .content-box h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .content-box p {
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">MY PORTFOLIO</div>
+        <nav>
+            <ul>
+                <li><a onclick="showPage('home')" class="nav-link active" id="link-home">HOME</a></li>
+                <li><a onclick="showPage('quiz')" class="nav-link" id="link-quiz">QUIZ</a></li>
+                <li><a onclick="showPage('laboratory')" class="nav-link" id="link-laboratory">LABORATORY</a></li>
+                <li><a onclick="showPage('exam')" class="nav-link" id="link-exam">EXAM</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HOME SECTION -->
+        <section id="home" class="page-section active">
+            <!-- Left Side: Bio Text -->
+            <div class="bio-container">
+                <h1>Hi! It's Justine Neil Roño.</h1>
+                <h2>BSIT-3B</h2>
+                <p>
+                    I'm Justine Roño, you can call me Tine for short and I like to play volleyball and my goal in life is to help my parents and to make them happy.
+                </p>
+                <div class="social-icons">
+                    <a href="https://github.com/" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.instagram.com/itstatinee" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="profile-img-container">
+
+                <img src="tatineee.jpg" alt="Justine Neil Roño">
+            </div>
+        </section>
+
+        <section id="quiz" class="page-section">
+            <div class="content-box">
+                <h1>Quizzes</h1>
+                <p>Your quiz content, links, or embeds will go here.</p>
+            </div>
+        </section>
+
+        <section id="laboratory" class="page-section">
+            <div class="content-box">
+                <h1>Laboratory Works</h1>
+                <p>Your lab exercises and code submissions will go here.</p>
+            </div>
+        </section>
+
+        <section id="exam" class="page-section">
+            <div class="content-box">
+                <h1>Exams</h1>
+                <p>Your exam records and projects will go here.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function showPage(pageId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            const links = document.querySelectorAll('.nav-link');
+            links.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('link-' + pageId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
