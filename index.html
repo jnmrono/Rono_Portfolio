@@ -176,8 +176,6 @@
             font-size: 1.3rem;
         }
 
-        /* ===== LABORATORY / PDF SECTION ===== */
-
         .lab-wrapper {
             width: 100%;
         }
@@ -461,14 +459,12 @@
             border: none;
         }
 
-        /* ===== QUIZ IMAGE ===== */
         .content-box img {
             max-width: 100%;
             border-radius: 8px;
             margin-top: 1.5rem;
         }
 
-        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             bottom: 2rem;
@@ -492,7 +488,6 @@
             opacity: 1;
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -579,7 +574,6 @@
             </div>
         </section>
 
-        <!-- QUIZ SECTION -->
         <section id="quiz" class="page-section">
             <div class="content-box">
                 <h1>Quizzes</h1>
@@ -588,7 +582,6 @@
             </div>
         </section>
 
-        <!-- LABORATORY SECTION -->
         <section id="laboratory" class="page-section">
             <div class="lab-wrapper">
                 <div class="lab-header">
@@ -599,9 +592,7 @@
                     <input type="file" id="pdfFileInput" accept=".pdf" multiple onchange="handlePdfUpload(event)">
                 </div>
 
-                <div id="pdfGrid" class="pdf-grid">
-                    <!-- PDF cards will be inserted here -->
-                </div>
+                <div id="pdfGrid" class="pdf-grid"></div>
 
                 <div id="emptyState" class="empty-state">
                     <i class="fa-regular fa-file-pdf"></i>
@@ -611,7 +602,6 @@
             </div>
         </section>
 
-        <!-- EXAM SECTION -->
         <section id="exam" class="page-section">
             <div class="content-box">
                 <h1>Exams</h1>
@@ -620,7 +610,6 @@
         </section>
     </main>
 
-    <!-- PDF VIEWER MODAL -->
     <div class="pdf-modal-overlay" id="pdfModal" onclick="closePdfModal(event)">
         <div class="pdf-modal" onclick="event.stopPropagation()">
             <div class="pdf-modal-header">
@@ -633,12 +622,37 @@
         </div>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
     <div class="toast" id="toast"></div>
 
     <script>
-        // Store PDFs in memory for this session
         let pdfFiles = [];
+
+        /* ===== Pre-load your PDF file ===== */
+        function initPreloadedPdfs() {
+            pdfFiles.push({
+                id: 'preloaded-001',
+                name: 'Rono, Justine Neil.pdf',
+                size: null,
+                src: 'Rono, Justine Neil.pdf'
+            });
+            renderPdfGrid();
+
+            /* Try to fetch the file size for display */
+            fetch('Rono, Justine Neil.pdf', { method: 'HEAD' })
+                .then(res => {
+                    if (res.ok) {
+                        const contentLength = res.headers.get('Content-Length');
+                        if (contentLength) {
+                            const pdf = pdfFiles.find(p => p.id === 'preloaded-001');
+                            if (pdf) {
+                                pdf.size = parseInt(contentLength, 10);
+                                renderPdfGrid();
+                            }
+                        }
+                    }
+                })
+                .catch(() => {});
+        }
 
         function showPage(pageId) {
             const sections = document.querySelectorAll('.page-section');
@@ -655,14 +669,18 @@
             document.getElementById('link-' + pageId).classList.add('active');
         }
 
-        // Format file size
         function formatSize(bytes) {
+            if (bytes === null || bytes === undefined) return 'PDF Document';
             if (bytes < 1024) return bytes + ' B';
             if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
             return (bytes / 1048576).toFixed(1) + ' MB';
         }
 
-        // Show toast notification
+        function getPdfSrc(pdf) {
+            /* Use dataUrl for uploaded files, src for pre-loaded ones */
+            return pdf.dataUrl || pdf.src || '';
+        }
+
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -670,7 +688,6 @@
             setTimeout(() => toast.classList.remove('show'), 2500);
         }
 
-        // Handle PDF file upload
         function handlePdfUpload(event) {
             const files = event.target.files;
             if (!files.length) return;
@@ -697,7 +714,6 @@
                 reader.readAsDataURL(file);
             });
 
-            // Reset input so the same file can be re-added if needed
             event.target.value = '';
 
             setTimeout(() => {
@@ -707,7 +723,6 @@
             }, 300);
         }
 
-        // Render the PDF grid
         function renderPdfGrid() {
             const grid = document.getElementById('pdfGrid');
             const empty = document.getElementById('emptyState');
@@ -719,10 +734,13 @@
             }
 
             empty.style.display = 'none';
-            grid.innerHTML = pdfFiles.map(pdf => `
+            grid.innerHTML = pdfFiles.map(pdf => {
+                const src = getPdfSrc(pdf);
+                const escapedSrc = src.replace(/'/g, "\\'");
+                return `
                 <div class="pdf-card">
                     <div class="pdf-card-preview" onclick="openPdfModal('${pdf.id}')">
-                        <iframe src="${pdf.dataUrl}" title="${pdf.name}"></iframe>
+                        <iframe src="${src}" title="${pdf.name}"></iframe>
                         <div class="pdf-icon-overlay">
                             <i class="fa-regular fa-eye"></i>
                         </div>
@@ -742,22 +760,21 @@
                             <i class="fa-regular fa-trash-can"></i>
                         </button>
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
 
-        // Open PDF in modal viewer
         function openPdfModal(id) {
             const pdf = pdfFiles.find(p => String(p.id) === String(id));
             if (!pdf) return;
 
+            const src = getPdfSrc(pdf);
             document.getElementById('modalTitle').textContent = pdf.name;
-            document.getElementById('modalIframe').src = pdf.dataUrl;
+            document.getElementById('modalIframe').src = src;
             document.getElementById('pdfModal').classList.add('open');
             document.body.style.overflow = 'hidden';
         }
 
-        // Close modal
         function closePdfModal(event) {
             if (event && event.target !== event.currentTarget) return;
             document.getElementById('pdfModal').classList.remove('open');
@@ -765,13 +782,13 @@
             document.body.style.overflow = '';
         }
 
-        // Download PDF
         function downloadPdf(id) {
             const pdf = pdfFiles.find(p => String(p.id) === String(id));
             if (!pdf) return;
 
+            const src = getPdfSrc(pdf);
             const link = document.createElement('a');
-            link.href = pdf.dataUrl;
+            link.href = src;
             link.download = pdf.name;
             document.body.appendChild(link);
             link.click();
@@ -779,7 +796,6 @@
             showToast('Downloading "' + pdf.name + '"');
         }
 
-        // Delete PDF
         function deletePdf(id) {
             const pdf = pdfFiles.find(p => String(p.id) === String(id));
             if (!pdf) return;
@@ -790,15 +806,14 @@
             showToast('"' + name + '" removed');
         }
 
-        // Close modal with Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closePdfModal();
             }
         });
 
-        // Initial render
-        renderPdfGrid();
+        /* Initialize with pre-loaded PDF */
+        initPreloadedPdfs();
     </script>
 </body>
 </html>
