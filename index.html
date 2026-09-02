@@ -627,31 +627,43 @@
     <script>
         let pdfFiles = [];
 
-        /* ===== Pre-load your PDF file ===== */
+        /* ===== Pre-load your PDF files ===== */
         function initPreloadedPdfs() {
+            /* Pre-loaded PDF 1 */
             pdfFiles.push({
                 id: 'preloaded-001',
                 name: 'Rono, Justine Neil.pdf',
                 size: null,
                 src: 'Rono, Justine Neil.pdf'
             });
+
+            /* Pre-loaded PDF 2 - SSH Remote Access Lab */
+            pdfFiles.push({
+                id: 'preloaded-002',
+                name: 'Roño_Act1(2).pdf',
+                size: null,
+                src: 'Ro%C3%B1o_Act1(2).pdf'
+            });
+
             renderPdfGrid();
 
-            /* Try to fetch the file size for display */
-            fetch('Rono, Justine Neil.pdf', { method: 'HEAD' })
-                .then(res => {
-                    if (res.ok) {
-                        const contentLength = res.headers.get('Content-Length');
-                        if (contentLength) {
-                            const pdf = pdfFiles.find(p => p.id === 'preloaded-001');
-                            if (pdf) {
-                                pdf.size = parseInt(contentLength, 10);
-                                renderPdfGrid();
+            /* Try to fetch the file sizes for display */
+            ['Rono, Justine Neil.pdf', 'Ro%C3%B1o_Act1(2).pdf'].forEach((filePath, index) => {
+                fetch(filePath, { method: 'HEAD' })
+                    .then(res => {
+                        if (res.ok) {
+                            const contentLength = res.headers.get('Content-Length');
+                            if (contentLength) {
+                                const pdf = pdfFiles.find(p => p.id === 'preloaded-00' + (index + 1));
+                                if (pdf) {
+                                    pdf.size = parseInt(contentLength, 10);
+                                    renderPdfGrid();
+                                }
                             }
                         }
-                    }
-                })
-                .catch(() => {});
+                    })
+                    .catch(() => {});
+            });
         }
 
         function showPage(pageId) {
@@ -736,7 +748,6 @@
             empty.style.display = 'none';
             grid.innerHTML = pdfFiles.map(pdf => {
                 const src = getPdfSrc(pdf);
-                const escapedSrc = src.replace(/'/g, "\\'");
                 return `
                 <div class="pdf-card">
                     <div class="pdf-card-preview" onclick="openPdfModal('${pdf.id}')">
@@ -812,7 +823,7 @@
             }
         });
 
-        /* Initialize with pre-loaded PDF */
+        /* Initialize with pre-loaded PDFs */
         initPreloadedPdfs();
     </script>
 </body>
