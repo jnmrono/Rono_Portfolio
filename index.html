@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROÑO - PORTFOLIO</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -17,8 +19,8 @@
         }
 
         body {
-            background-color: #4A1525; 
-            color: #ffffff;            
+            background-color: #4A1525;
+            color: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -57,7 +59,8 @@
             border-bottom: 2px solid transparent;
         }
 
-        nav a:hover, nav a.active {
+        nav a:hover,
+        nav a.active {
             opacity: 0.8;
             border-bottom: 2px solid #ffffff;
         }
@@ -120,7 +123,7 @@
         .profile-img-container {
             width: 380px;
             height: 480px;
-            border-radius: 20px; 
+            border-radius: 20px;
             overflow: hidden;
             border: 2px solid rgba(255, 255, 255, 0.4);
             flex-shrink: 0;
@@ -339,7 +342,7 @@
             color: #ff8888;
         }
 
-        .pdf-card-actions button + button {
+        .pdf-card-actions button+button {
             border-left: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -366,8 +369,6 @@
             opacity: 0.35;
         }
 
-        /* ===== PDF VIEWER MODAL ===== */
-
         .pdf-modal-overlay {
             display: none;
             position: fixed;
@@ -385,8 +386,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .pdf-modal {
@@ -404,8 +410,15 @@
         }
 
         @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .pdf-modal-header {
@@ -526,7 +539,8 @@
                 padding: 2rem 1.5rem;
             }
 
-            .content-box h1, .lab-header h1 {
+            .content-box h1,
+            .lab-header h1 {
                 font-size: 2.2rem;
             }
 
@@ -541,8 +555,8 @@
         }
     </style>
 </head>
-<body>
 
+<body>
     <header>
         <div class="logo">MY PORTFOLIO</div>
         <nav>
@@ -562,11 +576,13 @@
                 <h1>Hi! It's Justine Neil Roño.</h1>
                 <h2>BSIT-3B</h2>
                 <p>
-                    I'm Justine Roño, you can call me Tine for short and I like to play volleyball and my goal in life is to help my parents and to make them happy.
+                    I'm Justine Roño, you can call me Tine for short and I like to play volleyball and my goal in life
+                    is to help my parents and to make them happy.
                 </p>
                 <div class="social-icons">
                     <a href="https://github.com/" target="_blank"><i class="fa-brands fa-github"></i></a>
-                    <a href="https://www.instagram.com/itstatinee" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.instagram.com/itstatinee" target="_blank"><i
+                            class="fa-brands fa-instagram"></i></a>
                 </div>
             </div>
             <div class="profile-img-container">
@@ -627,60 +643,15 @@
     <script>
         let pdfFiles = [];
 
-        /* ===== Pre-load your PDF files ===== */
-        function initPreloadedPdfs() {
-            /* Pre-loaded PDF 1 */
-            pdfFiles.push({
-                id: 'preloaded-001',
-                name: 'Rono, Justine Neil.pdf',
-                size: null,
-                src: 'Rono, Justine Neil.pdf'
-            });
-
-            /* Pre-loaded PDF 2 - SSH Remote Access Lab */
-            pdfFiles.push({
-                id: 'preloaded-002',
-                name: 'Roño_Act1(2).pdf',
-                size: null,
-                src: 'Ro%C3%B1o_Act1(2).pdf'
-            });
-
-            renderPdfGrid();
-
-            /* Try to fetch the file sizes for display */
-            ['Rono, Justine Neil.pdf', 'Ro%C3%B1o_Act1(2).pdf'].forEach((filePath, index) => {
-                fetch(filePath, { method: 'HEAD' })
-                    .then(res => {
-                        if (res.ok) {
-                            const contentLength = res.headers.get('Content-Length');
-                            if (contentLength) {
-                                const pdf = pdfFiles.find(p => p.id === 'preloaded-00' + (index + 1));
-                                if (pdf) {
-                                    pdf.size = parseInt(contentLength, 10);
-                                    renderPdfGrid();
-                                }
-                            }
-                        }
-                    })
-                    .catch(() => {});
-            });
-        }
-
+        /* ===== Navigation ===== */
         function showPage(pageId) {
-            const sections = document.querySelectorAll('.page-section');
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
-
-            const links = document.querySelectorAll('.nav-link');
-            links.forEach(link => {
-                link.classList.remove('active');
-            });
-
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             document.getElementById('link-' + pageId).classList.add('active');
         }
 
+        /* ===== Helpers ===== */
         function formatSize(bytes) {
             if (bytes === null || bytes === undefined) return 'PDF Document';
             if (bytes < 1024) return bytes + ' B';
@@ -689,7 +660,6 @@
         }
 
         function getPdfSrc(pdf) {
-            /* Use dataUrl for uploaded files, src for pre-loaded ones */
             return pdf.dataUrl || pdf.src || '';
         }
 
@@ -700,6 +670,7 @@
             setTimeout(() => toast.classList.remove('show'), 2500);
         }
 
+        /* ===== Upload ===== */
         function handlePdfUpload(event) {
             const files = event.target.files;
             if (!files.length) return;
@@ -711,9 +682,8 @@
                     showToast('"' + file.name + '" is not a PDF file');
                     return;
                 }
-
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     pdfFiles.push({
                         id: Date.now() + Math.random(),
                         name: file.name,
@@ -735,6 +705,7 @@
             }, 300);
         }
 
+        /* ===== Render ===== */
         function renderPdfGrid() {
             const grid = document.getElementById('pdfGrid');
             const empty = document.getElementById('emptyState');
@@ -749,39 +720,38 @@
             grid.innerHTML = pdfFiles.map(pdf => {
                 const src = getPdfSrc(pdf);
                 return `
-                <div class="pdf-card">
-                    <div class="pdf-card-preview" onclick="openPdfModal('${pdf.id}')">
-                        <iframe src="${src}" title="${pdf.name}"></iframe>
-                        <div class="pdf-icon-overlay">
-                            <i class="fa-regular fa-eye"></i>
+                    <div class="pdf-card">
+                        <div class="pdf-card-preview" onclick="openPdfModal('${pdf.id}')">
+                            <iframe src="${src}" title="${pdf.name}"></iframe>
+                            <div class="pdf-icon-overlay">
+                                <i class="fa-regular fa-eye"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="pdf-card-info">
-                        <div class="pdf-name" title="${pdf.name}">${pdf.name}</div>
-                        <div class="pdf-size">${formatSize(pdf.size)}</div>
-                    </div>
-                    <div class="pdf-card-actions">
-                        <button onclick="openPdfModal('${pdf.id}')" title="View">
-                            <i class="fa-regular fa-eye"></i> View
-                        </button>
-                        <button onclick="downloadPdf('${pdf.id}')" title="Download">
-                            <i class="fa-solid fa-download"></i>
-                        </button>
-                        <button class="btn-delete" onclick="deletePdf('${pdf.id}')" title="Delete">
-                            <i class="fa-regular fa-trash-can"></i>
-                        </button>
-                    </div>
-                </div>`;
+                        <div class="pdf-card-info">
+                            <div class="pdf-name" title="${pdf.name}">${pdf.name}</div>
+                            <div class="pdf-size">${formatSize(pdf.size)}</div>
+                        </div>
+                        <div class="pdf-card-actions">
+                            <button onclick="openPdfModal('${pdf.id}')" title="View">
+                                <i class="fa-regular fa-eye"></i> View
+                            </button>
+                            <button onclick="downloadPdf('${pdf.id}')" title="Download">
+                                <i class="fa-solid fa-download"></i>
+                            </button>
+                            <button class="btn-delete" onclick="deletePdf('${pdf.id}')" title="Delete">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>`;
             }).join('');
         }
 
+        /* ===== Modal ===== */
         function openPdfModal(id) {
             const pdf = pdfFiles.find(p => String(p.id) === String(id));
             if (!pdf) return;
-
-            const src = getPdfSrc(pdf);
             document.getElementById('modalTitle').textContent = pdf.name;
-            document.getElementById('modalIframe').src = src;
+            document.getElementById('modalIframe').src = getPdfSrc(pdf);
             document.getElementById('pdfModal').classList.add('open');
             document.body.style.overflow = 'hidden';
         }
@@ -793,13 +763,12 @@
             document.body.style.overflow = '';
         }
 
+        /* ===== Download / Delete ===== */
         function downloadPdf(id) {
             const pdf = pdfFiles.find(p => String(p.id) === String(id));
             if (!pdf) return;
-
-            const src = getPdfSrc(pdf);
             const link = document.createElement('a');
-            link.href = src;
+            link.href = getPdfSrc(pdf);
             link.download = pdf.name;
             document.body.appendChild(link);
             link.click();
@@ -810,21 +779,72 @@
         function deletePdf(id) {
             const pdf = pdfFiles.find(p => String(p.id) === String(id));
             if (!pdf) return;
-
-            const name = pdf.name;
             pdfFiles = pdfFiles.filter(p => String(p.id) !== String(id));
             renderPdfGrid();
-            showToast('"' + name + '" removed');
+            showToast('"' + pdf.name + '" removed');
         }
 
-        document.addEventListener('keydown', function(e) {
+        /* ============================================================
+           PRE-LOADED PDFs
+           ------------------------------------------------------------
+           To add a new PDF permanently, just add ONE line below:
+             { name: 'Display Name.pdf', file: 'url-encoded-path.pdf' }
+
+           - 'name' → what shows on the card (normal text, ñ is fine here)
+           - 'file' → the actual file in your folder. Special characters
+                      must be URL-encoded:  ñ = %C3%B1,  space = %20
+                      Tip: run  encodeURIComponent('Roño_Act2.pdf')
+                      in the browser console (F12) to get the encoded path.
+
+           IMPORTANT: the file must exist in the same folder as this HTML
+           file, with the exact same name (case-sensitive on servers).
+           ============================================================ */
+        const preloadedList = [
+            { name: 'Rono, Justine Neil.pdf', file: 'Rono,%20Justine%20Neil.pdf' },
+            { name: 'Roño_Act1(2).pdf',       file: 'Ro%C3%B1o_Act1(2).pdf' },
+           
+            // { name: 'Roño_Act2.pdf',       file: 'Ro%C3%B1o_Act2.pdf' },   <-- example of a new entry
+        ];
+
+        function initPreloadedPdfs() {
+            preloadedList.forEach((item, index) => {
+                const id = 'preloaded-' + (index + 1);
+
+                pdfFiles.push({
+                    id: id,
+                    name: item.name,
+                    size: null,
+                    src: item.file
+                });
+
+                // Fetch the real file size from the server
+                fetch(item.file, { method: 'HEAD' })
+                    .then(res => {
+                        if (res.ok) {
+                            const contentLength = res.headers.get('Content-Length');
+                            if (contentLength) {
+                                const pdf = pdfFiles.find(p => p.id === id);
+                                if (pdf) {
+                                    pdf.size = parseInt(contentLength, 10);
+                                    renderPdfGrid();
+                                }
+                            }
+                        }
+                    })
+                    .catch(() => { });
+            });
+
+            renderPdfGrid();
+        }
+
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closePdfModal();
             }
         });
 
-        /* Initialize with pre-loaded PDFs */
         initPreloadedPdfs();
     </script>
 </body>
+
 </html>
